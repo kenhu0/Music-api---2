@@ -1,0 +1,11 @@
+# YouTube session cookies are credentials; never commit them.
+cookis.txt
+cookies.txt
+attached_assets/cokis_1790949353519.txt
+
+__pycache__/
+*.pyc
+music-api/downloads/
+music-api/cache/
+music-api/logs/
+music-api/database/

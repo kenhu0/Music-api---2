@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+yt-dlp[default]
+httpx
+aiofiles
+python-dotenv
+pydantic
+orjson
+aiosqlite
+python-multipart
