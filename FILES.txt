@@ -1,0 +1,111 @@
+Music API ZIP — file guide
+=========================
+
+This archive contains the project source and deployment instructions. It does
+not contain actual YouTube cookies, local databases, downloaded audio, Git
+history, or Replit-only configuration.
+
+Root files
+----------
+
+.gitignore
+  Prevents credentials such as cookis.txt and generated files from being added
+  to Git.
+
+LICENSE
+  Project license.
+
+README.md
+  Project overview, API endpoints, local setup, and Render deployment steps.
+
+main.py
+  Replit scaffold entry point that prints a greeting. The FastAPI service is
+  started from music-api/app.py instead.
+
+pyproject.toml
+  Workspace Python package and dependency configuration.
+
+uv.lock
+  Locked dependency versions for the workspace's uv environment.
+
+FILES.txt
+  This guide to the files in the archive.
+
+FastAPI application: music-api/
+--------------------------------
+
+music-api/app.py
+  Creates the FastAPI application, initializes the database on startup, and
+  registers the API routes.
+
+music-api/config.py
+  Defines application settings and paths for the database, cache, and logs;
+  creates the required directories.
+
+music-api/database.py
+  Creates the SQLite api_logs table when the application starts.
+
+music-api/requirements.txt
+  Python dependencies installed by Render when its service root is
+  music-api/.
+
+music-api/routes/__init__.py
+  Makes the API route modules importable as a Python package.
+
+music-api/routes/download.py
+  GET /download: accepts a video ID or song name and returns an audio file.
+
+music-api/routes/health.py
+  GET /health: returns the service health status.
+
+music-api/routes/play.py
+  GET /play: looks up a song and returns playback information.
+
+music-api/routes/search.py
+  GET /search: searches YouTube music results by query.
+
+music-api/routes/song.py
+  GET /song: returns metadata for a YouTube video ID.
+
+music-api/routes/stream.py
+  GET /stream: returns stream information for a YouTube video ID.
+
+music-api/services/__init__.py
+  Makes the service modules importable as a Python package.
+
+music-api/services/cookies.py
+  Loads cookies from YOUTUBE_COOKIES first, otherwise from cookis.txt in the
+  app or repository root, and provides the cookie-file option to yt-dlp.
+  Environment-variable contents are written to a temporary file that is
+  removed when the server process exits.
+
+music-api/services/downloader.py
+  Resolves song names to YouTube videos when needed, downloads audio with
+  yt-dlp, and returns the download details.
+
+music-api/services/extractor.py
+  Extracts video metadata and stream information with yt-dlp.
+
+music-api/services/utils.py
+  Shared formatting and YouTube URL/thumbnail helper functions.
+
+music-api/services/youtube.py
+  Searches YouTube using yt-dlp and formats the search results.
+
+music-api/services/yt_dlp_options.py
+  Enables Node.js for yt-dlp's YouTube JavaScript challenge solving.
+
+music-api/tests/test_cookies.py
+  Offline tests for cookie configuration and mocked YouTube download/search
+  behavior.
+
+Runtime-generated files
+-----------------------
+
+The SQLite database and downloads are not included. The app creates its
+database/cache/log directories at startup, and the downloader creates its
+downloads directory when imported.
+
+YouTube cookies are intentionally not included. On Render, set the private
+YOUTUBE_COOKIES environment variable to the full Netscape-format cookie file
+contents. Never commit those credentials to GitHub or share them in a ZIP.
